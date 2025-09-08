@@ -6,20 +6,31 @@ const TransactionList = async () => {
   const { transactions, error } = await getTransactions();
 
   if (error) {
-    return <p className='error'>{error}</p>;
+    return (
+      <div className="error-container">
+        <p className="error-message">{error}</p>
+      </div>
+    );
   }
 
   return (
-    <>
-      <h3>History</h3>
-      <ul className='list'>
-        {transactions &&
-          transactions.map((transaction: Transaction) => (
+    <div className="transaction-list-container">
+      <h3 className="section-title">Histórico de Transações</h3>
+      {transactions && transactions.length > 0 ? (
+        <ul className="transaction-list">
+          {transactions.map((transaction: Transaction) => (
             <TransactionItem key={transaction.id} transaction={transaction} />
           ))}
-      </ul>
-    </>
+        </ul>
+      ) : (
+        <div className="empty-state">
+          <div className="empty-icon">📊</div>
+          <p className="empty-message">Nenhuma transação encontrada</p>
+          <p className="empty-subtitle">Adicione sua primeira transação para começar</p>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default TransactionList;
+export default TransactionList

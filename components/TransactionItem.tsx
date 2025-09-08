@@ -6,10 +6,11 @@ import deleteTransaction from '@/app/actions/deleteTransaction';
 
 const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
   const sign = transaction.amount < 0 ? '-' : '+';
+  const isExpense = transaction.amount < 0;
 
   const handleDeleteTransaction = async (transactionId: string) => {
     const confirmed = window.confirm(
-      'Are you sure you want to delete this transaction?'
+      'Tem certeza que deseja deletar esta transação?'
     );
 
     if (!confirmed) return;
@@ -24,16 +25,24 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
   };
 
   return (
-    <li className={transaction.amount < 0 ? 'minus' : 'plus'}>
-      {transaction.text}
-      <span>
-        {sign}${addCommas(Math.abs(transaction.amount))}
-      </span>
+    <li className={`transaction-item ${isExpense ? 'expense-item' : 'income-item'}`}>
+      <div className="transaction-content">
+        <div className="transaction-icon">
+          {isExpense ? '💸' : '💰'}
+        </div>
+        <div className="transaction-details">
+          <span className="transaction-text">{transaction.text}</span>
+          <span className={`transaction-amount ${isExpense ? 'negative' : 'positive'}`}>
+            {sign}${addCommas(Math.abs(transaction.amount))}
+          </span>
+        </div>
+      </div>
       <button
         onClick={() => handleDeleteTransaction(transaction.id)}
-        className='delete-btn'
+        className="delete-button"
+        aria-label="Deletar transação"
       >
-        x
+        ✕
       </button>
     </li>
   );
