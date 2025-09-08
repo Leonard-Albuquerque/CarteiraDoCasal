@@ -19,7 +19,7 @@ async function getTransactions(): Promise<{
       orderBy: {
         createdAt: 'desc',
       },
-    });
+    }) as Transaction[]; // Cast explícito para o tipo Transaction
 
     return { transactions };
   } catch (error) {
