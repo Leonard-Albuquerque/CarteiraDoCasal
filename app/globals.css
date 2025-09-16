@@ -364,4 +364,7 @@ body {
     padding: 0.875rem 1.5rem;
     font-size: 0.9rem;
   }
+  .transaction-timestamp {
+    font-size: 0.7rem;
+  }
 }

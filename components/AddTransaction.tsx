@@ -142,6 +142,7 @@ const AddTransaction = () => {
             Descrição
           </label>
           <input
+            maxLength={25}
             type="text"
             id="text"
             name="text"

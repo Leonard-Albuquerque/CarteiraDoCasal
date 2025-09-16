@@ -3,10 +3,19 @@ import { Transaction } from '@/types/Transaction';
 import { addCommas } from '@/lib/utils';
 import { toast } from 'react-toastify';
 import deleteTransaction from '@/app/actions/deleteTransaction';
+import {format, formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
   const sign = transaction.amount < 0 ? '-' : '+';
   const isExpense = transaction.amount < 0;
+
+
+  const dataRelativa = formatDistanceToNow(new Date(transaction.createdAt), {
+    addSuffix: true,
+    locale: ptBR,
+  });
+  const diaDaSemana = format(new Date(transaction.createdAt), 'EEEE', { locale: ptBR });
 
   const handleDeleteTransaction = async (transactionId: string) => {
     const confirmed = window.confirm(
@@ -37,6 +46,9 @@ const TransactionItem = ({ transaction }: { transaction: Transaction }) => {
           </span>
         </div>
       </div>
+        <p className="transaction-timestamp">
+            {dataRelativa}
+        </p>
       <button
         onClick={() => handleDeleteTransaction(transaction.id)}
         className="delete-button"
